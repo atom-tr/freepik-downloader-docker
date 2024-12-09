@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+    db:
+        image: mongodb/mongodb-community-server:7.0.9-ubuntu2204
+        container_name: mongodb
+        restart: always
+        environment:
+                - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
+                - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASS}
+    api:
+        image: freepik-downloader:lasted
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: freepik-downloader
+        env_file: [".env"]
+        depends_on: [db]
+        restart: always
+
